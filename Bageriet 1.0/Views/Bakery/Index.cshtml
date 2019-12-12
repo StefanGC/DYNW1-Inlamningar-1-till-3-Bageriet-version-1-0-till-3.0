@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>Välkommen till vårt bageri, nedan har du en lista över våra produkter tillgängliga</p>
+@{
+    Bread bread1 = new Bread(1, "50 gram bröd");
+    Bread bread2 = new Bread(2, "100 gram bröd");
+    Cookies cookie1 = new Cookies(3, "Strawberry");
+    Cookies cookie2 = new Cookies(4, "Chocolate");
+
+    List<Product> products = new List<Product>();
+
+    products.Add(bread1);
+    products.Add(bread2);
+    products.Add(cookie1);
+    products.Add(cookie2);
+}
+<ul>
+    @foreach (var prod in products)
+    {
+        <li>@prod.name</li>
+    }
+</ul>

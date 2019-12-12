@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+
+    // Since Address isn't a string, it requires a cast.
+    var address = ViewData["Address"] as Address;
+}
+
+<h2>Contact</h2>
+
+<p>Här har du adressen till vårt bageri</p>
+
+<address>
+    @address.Name<br>
+    @address.Street<br>
+    @address.PostalCode @address.City
+</address>
