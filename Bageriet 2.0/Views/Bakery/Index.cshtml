@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>Välkommen till vårt bageri, nedan har du en lista över våra produkter tillgängliga</p>
+@{
+    WhiteBread bread1 = new WhiteBread(1, "50 gram bröd", "", "");
+    WhiteBread bread2 = new WhiteBread(2, "100 gram bröd", "", "");
+    WhiteBread cookie1 = new WhiteBread(3, "Strawberry", "", "");
+    WhiteBread cookie2 = new WhiteBread(4, "Chocolate", "", "");
+
+    List<WhiteBread> breads = new List<WhiteBread>();
+
+    breads.Add(bread1);
+    breads.Add(bread2);
+    breads.Add(cookie1);
+    breads.Add(cookie2);
+}
+<ul>
+    @foreach (var bread in breads)
+    {
+        <li>@bread.name</li>
+    }
+</ul>
+
