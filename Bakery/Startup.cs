@@ -15,12 +15,11 @@ namespace Bakery
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -28,9 +27,8 @@ namespace Bakery
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IWhiteBreadRepository, WhiteBreadRepository>();
-            services.AddScoped<IDarkBreadRepository, DarkBreadRepository>();
-            services.AddScoped<ICoffeeBreadRepository, CoffeeBreadRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBreadRepository, BreadRepository>();
 
             services.AddControllersWithViews();
         }

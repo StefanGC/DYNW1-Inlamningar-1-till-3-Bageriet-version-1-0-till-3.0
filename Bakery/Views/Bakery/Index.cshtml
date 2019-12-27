@@ -2,26 +2,26 @@
     ViewData["Title"] = "Index";
 }
 
+@model BreadsListViewModel
+
 <h2>Index</h2>
 
 <p>Välkommen till vårt bageri, nedan har du en lista över våra produkter tillgängliga</p>
-@{
-    WhiteBread bread1 = new WhiteBread(1, "50 gram bröd", "", "");
-    WhiteBread bread2 = new WhiteBread(2, "100 gram bröd", "", "");
-    WhiteBread cookie1 = new WhiteBread(3, "Strawberry", "", "");
-    WhiteBread cookie2 = new WhiteBread(4, "Chocolate", "", "");
 
-    List<WhiteBread> breads = new List<WhiteBread>();
-
-    breads.Add(bread1);
-    breads.Add(bread2);
-    breads.Add(cookie1);
-    breads.Add(cookie2);
-}
-<ul>
-    @foreach (var bread in breads)
+<div class="row">
+    @foreach (var bread in Model.Breads)
     {
-        <li>@bread.name</li>
+        <div class="col-4">
+            <div class="thumbnail">
+                <img src="@bread.ImageThumbnailUrl" alt="" width="335" height="310">
+                <div class="caption">
+                    <h3 class="pull-right">@bread.Price.ToString("c")</h3>
+                    <h3>
+                        <a>@bread.Name</a>
+                    </h3>
+                    <p>@bread.ShortDescription</p>
+                </div>
+            </div>
+        </div>
     }
-</ul>
-
+</div>

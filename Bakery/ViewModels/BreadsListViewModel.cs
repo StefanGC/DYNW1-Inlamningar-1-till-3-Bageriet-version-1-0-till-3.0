@@ -8,7 +8,7 @@ namespace Bakery.ViewModels
 {
     public class BreadsListViewModel
     {
-        public IEnumerable<WhiteBread> Breads { get; set; }
+        public IEnumerable<Bread> Breads { get; set; }
         public string CurrentCategory { get; set; }
     }
 }

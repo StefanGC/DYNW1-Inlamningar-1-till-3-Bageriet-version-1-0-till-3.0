@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bageriet 1.0\Bakery.csproj" />
+    <ProjectReference Include="..\Bakery\Bakery.csproj" />
   </ItemGroup>
 
 </Project>

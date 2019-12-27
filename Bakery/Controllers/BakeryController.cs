@@ -11,15 +11,13 @@ namespace Bakery.Controllers
 {
     public class BakeryController : Controller
     {
-        private readonly IWhiteBreadRepository _whiteBreadRepository;
-        private readonly IDarkBreadRepository _darkBreadRepository;
-        private readonly ICoffeeBreadRepository _coffeeBreadRepository;
+        private readonly IBreadRepository _breadRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public BakeryController(IWhiteBreadRepository whiteBreadRepository, IDarkBreadRepository darkBreadRepository, ICoffeeBreadRepository coffeeBreadRepository)
+        public BakeryController(IBreadRepository breadRepository, ICategoryRepository categoryRepository)
         {
-            _whiteBreadRepository = whiteBreadRepository;
-            _darkBreadRepository = darkBreadRepository;
-            _coffeeBreadRepository = coffeeBreadRepository;
+            _breadRepository = breadRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Home()
@@ -28,7 +26,11 @@ namespace Bakery.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            BreadsListViewModel breadsListViewModel = new BreadsListViewModel();
+            breadsListViewModel.Breads = _breadRepository.AllBreads;
+
+            breadsListViewModel.CurrentCategory = "White Bread";
+            return View(breadsListViewModel);
         }
 
         public IActionResult Contact()
@@ -51,15 +53,6 @@ namespace Bakery.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        public IActionResult List()
-        {
-            BreadsListViewModel breadsListViewModel = new BreadsListViewModel();
-            breadsListViewModel.Breads = _whiteBreadRepository.All;
-
-            breadsListViewModel.CurrentCategory = "White Bread";
-            return View(breadsListViewModel);
         }
     }
 }

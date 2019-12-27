@@ -7,17 +7,17 @@ namespace Bakery.Models
 {
     public class Bread
     {
-        public int WhiteBreadid { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string image { get; set; }
-
-        public Bread (int id, string name, string description, string image)
-        {
-            this.WhiteBreadid = id;
-            this.name = name;
-            this.description = description;
-            this.image = image;
-    }
+        public int BreadId { get; set; }
+        public string Name { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
+        public string AllergyInformation { get; set; }
+        public decimal Price { get; set; }
+        public string ImageUrl { get; set; }
+        public string ImageThumbnailUrl { get; set; }
+        public bool IsBreadOfTheWeek { get; set; }
+        public bool InStock { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Bakery.Models
 {
-    public interface IDarkBreadRepository
+    public interface ICategoryRepository
     {
-        IEnumerable<DarkBread> All { get; }
+        IEnumerable<Category> AllCategories { get; }
     }
 }
