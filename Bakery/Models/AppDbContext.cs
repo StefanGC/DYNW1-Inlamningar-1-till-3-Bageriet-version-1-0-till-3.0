@@ -12,7 +12,8 @@ namespace Bakery.Models
     {
         public DbSet<Bread> Breads { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ProductComment> ProductComments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Grade> AllGrades { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -126,15 +127,6 @@ namespace Bakery.Models
                 AllergyInformation = ""
             });
 
-            //seed comment
-            modelBuilder.Entity<ProductComment>().HasData(new ProductComment 
-            { 
-                ProductCommentId = 1, 
-                ProductId = 1, 
-                UserName = "Stefan", 
-                CommentDate = DateTime.Now, 
-                CommentText = "The first commet" 
-            });
         }
     }
 }

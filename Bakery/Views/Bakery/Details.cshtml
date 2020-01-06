@@ -1,20 +1,86 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
     ViewData["Title"] = "Details";
 }
 
-@model Bread
+@model BreadsListViewModel
 
-<h2>@Model.Name</h2>
+<h2>@Model.Bread.Name</h2>
 <div class="thumbnail">
-    <img alt="@Model.Name" src="@Model.ImageUrl">
+    <img alt="@Model.Bread.Name" src="@Model.Bread.ImageUrl">
     <div class="caption-full">
-        <h3 class="pull-right">@Model.Price</h3>
+        <h3 class="pull-right">@Model.Bread.Price</h3>
         <h3>
-            <a href="#">@Model.Name</a>
+            <a href="#">@Model.Bread.Name</a>
         </h3>
-        <h4>@Model.ShortDescription</h4>
-        <p>@Model.LongDescription</p>
+        <h4>@Model.Bread.ShortDescription</h4>
+        <p>@Model.Bread.LongDescription</p>
     </div>
 </div>
 
+<div>
+    <h3>Genomsnittligt bedömning:</h3>
+    <h3>@Model.GradeAverage</h3>
 
+    @if (Model.comments.Count > 0)
+    {
+        @foreach (var com in Model.comments)
+        {
+            <h2>@com.Text</h2>
+        }
+    }
+
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <form asp-action="Checkout" method="post" class="form-horizontal" role="form">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <h3>Din synpunkt</h3>
+            <div class="form-group">
+                <div class="col-md-5">
+                    <input name="Text" size="50" class="form-control" value="Din kommentar" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-5">
+                    <input type="submit" name="Text"
+                           asp-controller="Bakery" asp-action="WriteComment"
+                           asp-route-id="@Model.Bread.BreadId"
+                           asp-route-text="Text"
+                           class="btn btn-primary" value="Skicka kommentar" />
+                </div>
+            </div>
+
+            <!-- möjlighet att lämna betyg 1-5                              -->
+            <div class="form-group">
+                <div class="col-md-5">
+                    <select name="Grade">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- submit av angiven betyg-siffra                               -->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-5">
+
+                    <input type="submit" name="Grade"
+                           asp-controller="Bakery" asp-action="WriteGrade"
+                           asp-route-id="@Model.Bread.BreadId"
+                           asp-route-text="Grade"
+                           class="btn btn-primary" value="Ge dytt betyg mellan 1-5" />
+                </div>
+            </div>
+        </form>
+    }
+</div>

@@ -32,7 +32,8 @@ namespace Bakery
             
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBreadRepository, BreadRepository>();
-            services.AddScoped<IProductCommentRepository, ProductCommentRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IGradeRepository, GradeRepository>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

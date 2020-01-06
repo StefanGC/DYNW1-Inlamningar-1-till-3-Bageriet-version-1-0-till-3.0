@@ -8,6 +8,7 @@ using Bakery.Models;
 using Bakery.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bakery.Controllers
 {
@@ -15,13 +16,15 @@ namespace Bakery.Controllers
     {
         private readonly IBreadRepository _breadRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductCommentRepository _productCommentRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly IGradeRepository _gradeRepository;
 
-        public BakeryController(IBreadRepository breadRepository, ICategoryRepository categoryRepository, IProductCommentRepository productCommentRepository)
+        public BakeryController(IBreadRepository breadRepository, ICategoryRepository categoryRepository, ICommentRepository commentRepository, IGradeRepository gradeRepository)
         {
             _breadRepository = breadRepository;
             _categoryRepository = categoryRepository;
-            _productCommentRepository = productCommentRepository;
+            _commentRepository = commentRepository;
+            _gradeRepository = gradeRepository;
         }
 
         public IActionResult Home()
@@ -68,7 +71,7 @@ namespace Bakery.Controllers
             return View(bread);
         }*/
 
-        public IActionResult Details(int id)
+        public ViewResult Details(int id)
         {
             var userName = "";
             try
@@ -80,26 +83,54 @@ namespace Bakery.Controllers
                 Console.WriteLine("{0} Exception caught.", e);
             }
             
-            BreadsListViewModel breadsListViewModel = new BreadsListViewModel
-            {
-                Bread = _breadRepository.GetBreadById(id),
-                //ProductRank = _productRankRepository.GetAverageProductRank(id),
-                //ProductRankCount = _productRankRepository.GetProductRankCount(id),
-                //ProductUserRank = _productRankRepository.GetUserProductRank(id, userName),
-                ProductComments = _productCommentRepository.GetProductComments(id)
-            };
+            BreadsListViewModel breadsListViewModel = new BreadsListViewModel();
+            breadsListViewModel.comments = new List<Comment>();
+            breadsListViewModel.Bread = _breadRepository.GetBreadById(id);
+            breadsListViewModel.comments = _commentRepository.GetCommentByProduct(id).ToList();
 
-            if (breadsListViewModel.Bread == null)
+            IEnumerable<Grade> myGrades = _gradeRepository.GetGradesByProduct(id);
+            List<int> allGrades = new List<int>();
+            foreach (Grade grad in myGrades)
             {
-                return NotFound();
+                allGrades.Add(grad.Grad);
             }
 
+            if (allGrades.Count > 0)
+            {
+                double gradeNum = allGrades.Average();
+                breadsListViewModel.GradeAverage = Math.Round(gradeNum);
+            }
+            else
+            {
+                breadsListViewModel.GradeAverage = 0.0;
+            }
             return View(breadsListViewModel);
         }
 
-        public IActionResult WriteComment()
+        public RedirectToActionResult WriteComment(int id, string text)
         {
-            return View();
+            Comment myComment = new Comment();
+            myComment.Id = Guid.NewGuid().ToString();
+            myComment.ProductId = id;
+            myComment.Text = text;
+
+            _commentRepository.AddComment(myComment);
+
+            return RedirectToAction("Details", "Bakery", new { id = id });
+        }
+
+        [Authorize]
+        public RedirectToActionResult WriteGrade(int id, string grade)
+        {
+            
+            Grade myGrade = new Grade();
+            myGrade.Id = Guid.NewGuid().ToString();
+            myGrade.ProductId = id;
+            myGrade.Grad = Convert.ToInt32(grade);
+
+            _gradeRepository.AddGrades(myGrade);
+
+            return RedirectToAction("Details", "Bakery", new { id = id });
         }
     }
 }
