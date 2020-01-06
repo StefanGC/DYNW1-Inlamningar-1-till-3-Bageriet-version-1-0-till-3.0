@@ -33,7 +33,7 @@ namespace Bakery.Models
 
         public Bread GetBreadById(int breadId)
         {
-            return _appDbContext.Breads.FirstOrDefault(p => p.BreadId == breadId);
+            return (Bread) _appDbContext.Breads.FirstOrDefault(p => p.BreadId == breadId);
         }
     }
 }

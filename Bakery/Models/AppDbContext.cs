@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bakery.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser> 
     {
         public DbSet<Bread> Breads { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductComment> ProductComments { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -122,7 +125,16 @@ namespace Bakery.Models
                 ImageThumbnailUrl = "https://cdn.pixabay.com/photo/2018/06/19/09/34/bread-3484107_960_720.jpg",
                 AllergyInformation = ""
             });
-           
+
+            //seed comment
+            modelBuilder.Entity<ProductComment>().HasData(new ProductComment 
+            { 
+                ProductCommentId = 1, 
+                ProductId = 1, 
+                UserName = "Stefan", 
+                CommentDate = DateTime.Now, 
+                CommentText = "The first commet" 
+            });
         }
     }
 }

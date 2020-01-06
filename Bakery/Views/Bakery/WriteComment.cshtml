@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model ProductComment
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="WriteComment" method="post" class="form-horizontal" role="form">
+        <h4>Här kan du skriva din kommentar.</h4>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="CommentText" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <textarea asp-for="CommentText" class="form-control" />
+                <span asp-validation-for="CommentText" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <input type="submit" class="btn btn-primary" value="Skriva kommentar" />
+            </div>
+        </div>
+
+    </form>
+}

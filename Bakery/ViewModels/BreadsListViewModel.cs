@@ -10,5 +10,11 @@ namespace Bakery.ViewModels
     {
         public IEnumerable<Bread> Breads { get; set; }
         public string CurrentCategory { get; set; }
+        public IEnumerable<ProductComment> ProductComments { get; set; }
+        public ProductComment ProductComment { get; set; }
+        public Bread Bread { get; set; }
+        public int ProductRank { get; set; }
+        public int ProductUserRank { get; set; }
+        public int ProductRankCount { get; set; }
     }
 }
