@@ -125,6 +125,7 @@ namespace Bakery.Controllers
             
             Grade myGrade = new Grade();
             myGrade.Id = Guid.NewGuid().ToString();
+            //myGrade.Id = Convert.ToInt32(Guid.NewGuid().ToByteArray());
             myGrade.ProductId = id;
             myGrade.Grad = Convert.ToInt32(grade);
 
