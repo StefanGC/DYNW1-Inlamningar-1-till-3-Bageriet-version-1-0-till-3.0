@@ -9,6 +9,6 @@ namespace Bakery.Models
     {
         IEnumerable<Comment> GetAllComment();
         IEnumerable<Comment> GetCommentByProduct(int id);
-        void AddComment(Comment inCommentary);
+        void AddComment(Comment nyComment);
     }
 }
